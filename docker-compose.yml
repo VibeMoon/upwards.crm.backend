@@ -8,8 +8,9 @@ services:
     container_name: upwards
     env_file:
       - .env
-    command: >
-      sh -c "PYTHONPATH=/app gunicorn app.config.wsgi:application --bind 0.0.0.0:8000"
+    # command: >
+    #   sh -c "PYTHONPATH=/app gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app 
       - static_volume:/app/app/static
@@ -47,8 +48,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - static_volume:/app/app/static
-      - media_volume:/app/app/media
+      - static_volume:/upwards.crm.backend/app/static
+      - media_volume:/upwards.crm.backend/app/media
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - web

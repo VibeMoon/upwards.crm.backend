@@ -1,6 +1,6 @@
 FROM python:3.13-slim
 
-WORKDIR /app
+WORKDIR /upwards.crm.backend/app/
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONNUNBUFFERED=1
@@ -13,12 +13,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /app/
+COPY requirements.txt /upwards.crm.backend/
 RUN pip install --upgrade pip && pip install -r requirements.txt
     
-COPY . /app/
+COPY . /upwards.crm.backend/app/
 
 EXPOSE 8000
 
-CMD ["gunicorn", "app.config.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
 # CMD ["python", "app/manage.py", "runserver", "0.0.0.0:8000"]
