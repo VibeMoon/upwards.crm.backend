@@ -39,9 +39,13 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./app:/app
     depends_on:
-      - web  # Update here, change 'app' to 'web'
+      - web 
     networks:
       - webnet
+
+networks:
+  webnet:  
+    driver: bridge
 
 volumes:
   postgres_data:
