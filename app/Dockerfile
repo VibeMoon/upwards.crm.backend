@@ -1,6 +1,6 @@
 FROM python:3.13-slim
 
-WORKDIR /upwards.crm.backend/
+WORKDIR /upwards.crm.backend/app
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONNUNBUFFERED=1
@@ -20,5 +20,5 @@ COPY . /upwards.crm.backend/
 
 EXPOSE 8000
 
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "app.config.wsgi:application", "--bind", "0.0.0.0:8000"]
 # CMD ["python", "app/manage.py", "runserver", "0.0.0.0:8000"]
