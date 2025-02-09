@@ -6,9 +6,11 @@ services:
     container_name: upwards
     env_file:
       - .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.config.settings
     # command: >
     #   sh -c "PYTHONPATH=/app gunicorn config.wsgi:application --bind 0.0.0.0:8000"
-    command: gunicorn app.config.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/upwards.crm.backend
       - static_volume:/upwards.crm.backend/app/static
