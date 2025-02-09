@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: upwards-crm
+    container_name: upwards
     env_file:
       - .env
     command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
@@ -16,9 +16,10 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
-      - webnet
+      - app_network
 
   db:
     image: postgres:17
@@ -31,24 +32,30 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
-      - webnet
+      - app_network
 
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     container_name: nginx
     ports:
       - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./app:/app
+      - static_volume:/app/app/static
+      - media_volume:/app/app/media
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - web 
+      - web
     networks:
-      - webnet
+      - app_network
 
 networks:
-  webnet:  
+  app_network:
     driver: bridge
 
 volumes:
