@@ -17,6 +17,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    networks:
+      - webnet
 
   db:
     image: postgres:17
@@ -29,6 +31,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - webnet
 
   nginx:
     image: nginx:latest
