@@ -12,12 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Load environment variables
-        run: |
-          cp example.env .env
+    #   - name: Load environment variables
+    #     run: |
+    #       cp example.env .env
 
-      - name: Build Docker image
-        run: make build
+    #   - name: Build Docker image
+    #     run: make build 
 
   deploy:
     runs-on: ubuntu-latest
@@ -36,7 +36,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER }} <<EOF
             cd /upwards.crm.backend/
             git pull
-            make up
             make migrate
-            docker system prune -f
+            make up
           EOF

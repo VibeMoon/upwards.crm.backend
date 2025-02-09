@@ -35,13 +35,13 @@ services:
     image: nginx:alpine
     container_name: nginx
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
-      - static_volume:/app/app/static
-      - media_volume:/app/app/media
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  
+      - ./sites-available:/etc/nginx/sites-available:ro  
+      - ./sites-enabled:/etc/nginx/sites-enabled:ro
     depends_on:
-      - web
+      - app
 
 volumes:
   postgres_data:
