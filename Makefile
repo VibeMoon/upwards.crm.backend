@@ -33,7 +33,6 @@ logs:
 	docker-compose -f $(DOCKER_COMPOSE) logs -f
 
 migrate:
-	docker-compose -f $(DOCKER_COMPOSE) exec $(WEB_SERVICE) python app/manage.py makemigrations
 	docker-compose -f $(DOCKER_COMPOSE) exec $(WEB_SERVICE) python app/manage.py migrate
 
 createsuperuser:

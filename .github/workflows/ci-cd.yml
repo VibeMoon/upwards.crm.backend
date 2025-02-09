@@ -34,7 +34,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER }} <<EOF
-            cd /upwards.crm.backend/
+            cd /home/upwards/upwards.crm.backend/
             git pull
             make migrate
             make up
