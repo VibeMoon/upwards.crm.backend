@@ -13,9 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /upwards.crm.backend/
-RUN pip install --upgrade pip && pip install -r requirements.txt
-    
+COPY requirements.txt /upwards.crm.backend/app/
+
+RUN pip install --upgrade pip && pip install -r /upwards.crm.backend/app/requirements.txt
+
 COPY . /upwards.crm.backend/
 
 EXPOSE 8000
