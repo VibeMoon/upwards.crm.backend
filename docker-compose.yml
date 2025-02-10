@@ -2,7 +2,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: app/Dockerfile
+      # dockerfile: Dockerfile
     working_dir: /upwards.crm.backend
     container_name: upwards
     env_file:
@@ -12,7 +12,7 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings
     # command: >
     #   sh -c "PYTHONPATH=/app gunicorn config.wsgi:application --bind 0.0.0.0:8000"
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    # command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/upwards.crm.backend
       - static_volume:/upwards.crm.backend/app/static
