@@ -35,7 +35,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER }} <<EOF
             cd /home/upwards/upwards.crm.backend/
-            git pull https://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@github.com/VibeMoon/upwards.crm.backend.git
-            make migrate
+            git pull https://${{ secrets.TOKEN }}@github.com/VibeMoon/upwards.crm.backend.git
+            make down
             make up
           EOF
