@@ -10,8 +10,8 @@ services:
     environment:
       - PYTHONPATH=/upwards.crm.backend/app
       - DJANGO_SETTINGS_MODULE=config.settings
-    # command: >
-    #   sh -c "PYTHONPATH=/app gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    command: >
+      sh -c "PYTHONPATH=/upwards.crm.backend/app gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     # command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/upwards.crm.backend

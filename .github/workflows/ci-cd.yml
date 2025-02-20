@@ -37,5 +37,6 @@ jobs:
             cd /home/upwards/upwards.crm.backend/
             git pull https://${{ secrets.TOKEN }}@github.com/VibeMoon/upwards.crm.backend.git
             make down
+            make build
             make up
           EOF
