@@ -3,12 +3,12 @@ services:
     build:
       context: .
       # dockerfile: Dockerfile
-    working_dir: /upwards.crm.backend
+    working_dir: /upwards.crm.backend/app
     container_name: upwards
     env_file:
       - .env
     environment:
-      - PYTHONPATH=/upwards.crm.backend
+      - PYTHONPATH=/upwards.crm.backend/app
       - DJANGO_SETTINGS_MODULE=config.settings
     # command: >
     #   sh -c "PYTHONPATH=/app gunicorn config.wsgi:application --bind 0.0.0.0:8000"
