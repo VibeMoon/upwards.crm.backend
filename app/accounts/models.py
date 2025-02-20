@@ -35,7 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     status = models.ForeignKey(UserStatus, on_delete=models.SET_NULL, null=True, blank=True, db_index=True)
     is_active = models.BooleanField("Активен", default=True)
     is_staff = models.BooleanField("Админ", default=False)
-    data_joined = models.DateTimeField("Дата создания", auto_now_add=True)
+    date_joined = models.DateTimeField("Дата создания", auto_now_add=True)
     last_online_date = models.DateTimeField("Дата последнего входа", auto_now=True)
 
     USERNAME_FIELD = 'email'

@@ -11,7 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from asgiref.sync import async_to_sync
 from datetime import timezone
 
-from .models import User
+from .models import User, Profile
 from .serializers import *
 from .services import GetLoginResponseService
 from .permissions import IsChiefOrReadOnly
@@ -70,14 +70,15 @@ class LogoutAPIView(generics.CreateAPIView):
         queryset = User.objects.all()
         return queryset
 
-class ProfileUpdateView(generics.RetrieveUpdateAPIView):
+class ProfileAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         return self.request.user.profile
 
-class RoleListCreateView(generics.ListCreateAPIView):
+class RoleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
     permission_classes = [IsChiefOrReadOnly]
@@ -100,7 +101,7 @@ class RoleListCreateView(generics.ListCreateAPIView):
 
         return super().create(request, *args, **kwargs)
     
-class RoleDetailView(generics.RetrieveUpdateDestroyAPIView):
+class RoleDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
     permission_classes = [permissions.IsAuthenticated]

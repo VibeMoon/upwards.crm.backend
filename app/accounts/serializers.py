@@ -1,10 +1,18 @@
 from .models import User, Role, Profile
 from rest_framework import serializers
 
+class RoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Role
+        fields = '__all__'
+        ref_name = 'RoleSerializer'
+
 class UserSerializer(serializers.ModelSerializer):
+    role = RoleSerializer(many=False)
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name')
+        fields = ('id', 'email', 'first_name', 'last_name', 'role')
+        ref_name = 'UserSerializer'
 
 class SignUpSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
@@ -12,6 +20,7 @@ class SignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("email", "first_name", "last_name", "password")
+        ref_name = 'SignUpSerializer'
 
     def validate_password(self, value):
         if len(value) < 8:
@@ -36,14 +45,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['id', 'user', 'photo', 'full_name']
         read_only_fields = ['user']
+        ref_name = 'ProfileSerializer'
 
     def update(self, instance, validated_data):
         instance.photo = validated_data.get('photo', instance.photo)
         instance.save()
         return instance
-
-
-class RoleSerializer(serializers.Serializer):
-    class Meta:
-        model = Role
-        fields = ('id', 'title', 'slug')
