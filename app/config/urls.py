@@ -7,12 +7,10 @@ from .yasg import urlpatterns as docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('accounts.urls')),
-    path('api/v1/', include('crm.urls')),
+    path('api/', include('accounts.urls')),
+    path('api/', include('crm.urls')),
 ]
 
 urlpatterns += docs_urls
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-# handler404 = 'pages.views.custom_404_page'

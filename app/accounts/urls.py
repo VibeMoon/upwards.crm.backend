@@ -1,11 +1,16 @@
-from django.urls import path, include
-from .views import SignUpAPIView, SignInAPIView, LogoutAPIView, RoleListCreateAPIView, RoleDetailAPIView, ProfileAPIView
+from django.urls import path
+from rest_framework_simplejwt.views import TokenRefreshView
+from .views import CustomTokenObtainPairView
 
 urlpatterns = [
-    path('sign_up/', SignUpAPIView.as_view(), name='sign_up'),
-    path('sign_in/', SignInAPIView.as_view(), name='sign_in'),
-    path('sign_out/', LogoutAPIView.as_view(), name='sign_out'),
-    path('profile/<int:pk>/', ProfileAPIView.as_view(), name='profile_update'),
-    path('role/', RoleListCreateAPIView.as_view(), name='role_list_create'),
-    path('role/<path:id>/', RoleDetailAPIView.as_view(), name='role_detail_delete'),
+    path(
+        'auth/login/',
+        CustomTokenObtainPairView.as_view(),
+        name='user_token_obtain_pair'
+    ),
+    path(
+        'auth/token/refresh/',
+        TokenRefreshView.as_view(),
+        name='token_refresh'
+    )
 ]
