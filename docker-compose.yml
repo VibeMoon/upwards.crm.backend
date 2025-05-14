@@ -45,11 +45,11 @@ services:
     networks:
       - app_network
 
-  nginx:
+  nginx_upwards_crm:
     image: nginx:alpine
-    container_name: nginx
+    container_name: nginx_upwards_crm
     ports:
-      - "80:80"
+      - "8000:8000"
     volumes:
       - static_volume:/upwards.crm.backend/app/static
       - media_volume:/upwards.crm.backend/app/media
