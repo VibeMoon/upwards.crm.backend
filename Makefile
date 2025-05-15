@@ -31,4 +31,3 @@ logs:
 run:
 	docker-compose -f $(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py collectstatic --noinput
 	docker-compose -f $(DOCKER_COMPOSE) exec $(WEB_SERVICE) python manage.py migrate
-	docker-compose -f $(DOCKER_COMPOSE) exec $(WEB_SERVICE) python -m gunicorn --bind 0.0.0.0:8000 --workers 3 config.wsgi:application
