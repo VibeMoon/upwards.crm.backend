@@ -20,7 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, verbose_name='email', db_index=True)
     first_name = models.CharField(max_length=255, verbose_name='Имя', null=True, blank=True)
     last_name = models.CharField(max_length=255, verbose_name='Фамилия', null=True, blank=True)
-    photo = models.ImageField(upload_to='user/', null=True, blank=True)
+    avatar = models.ImageField(upload_to='user/', null=True, blank=True)
     status = models.ForeignKey(
         UserStatus, on_delete=models.SET_NULL, null=True,
         blank=True, db_index=True

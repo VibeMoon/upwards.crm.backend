@@ -3,18 +3,20 @@ from django_filters import rest_framework as dj_filters
 from rest_framework import generics, permissions, filters, viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Project, Status, Task
 from .serializers import (
-    ProjectSerializer, ProjectCreateSerializer, 
+    ProjectSerializer, ProjectCreateSerializer,
     StatusSerializer,
     TaskSerializer, TaskCreateSerializer
-    ) 
+    )
 from .permissions import IsAdminRole
 from .repository import (
-    ProjectRepository as project_model, 
+    ProjectRepository as project_model,
     TaskRepository as task_model
     )
+
 
 class ProjectListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = (dj_filters.DjangoFilterBackend, filters.SearchFilter,)
@@ -28,13 +30,13 @@ class ProjectListCreateAPIView(generics.ListCreateAPIView):
             return ProjectSerializer
         elif self.request.method == 'POST':
             return ProjectCreateSerializer
-        
+
     def get_permissions(self):
         if self.request.method == 'GET':
             return [permissions.IsAuthenticatedOrReadOnly()]
         elif self.request.method == 'POST':
             return [IsAdminRole()]
-        
+
     def perform_create(self, serializer):
         try:
             serializer.save()
@@ -43,9 +45,10 @@ class ProjectListCreateAPIView(generics.ListCreateAPIView):
                 {"detail": f"Произошла ошибка при создании проекта: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
+
 class ProjectRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    
+
     def get_object(self):
         project_id = self.kwargs.get('pk')
         return project_model.get_by_id(project_id)
@@ -54,24 +57,26 @@ class ProjectRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
         if self.request.method in ['PUT', 'PATCH']:
             return ProjectCreateSerializer
         return ProjectSerializer
-    
+
     def get_permissions(self):
         if self.request.method in ['PUT', 'PATCH', 'DELETE']:
             return [IsAdminRole()]
         return [permissions.IsAuthenticated()]
-    
+
     def perform_update(self, serializer):
         project_id = self.kwargs.get('pk')
-        data = self.request.data 
+        data = self.request.data
         project = project_model.get_by_id(project_id)
         if project:
             project_model.update(project, data)
         serializer.save()
 
+
 class StatusListAPIView(generics.ListAPIView):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
     permission_classes = [permissions.IsAuthenticated]
+
 
 class TaskListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -92,7 +97,8 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
             return Response(
                 {"detail": f"Произошла ошибка при создании таска: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST
-            )        
+            )
+
 
 class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -100,7 +106,7 @@ class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         task_id  = self.kwargs.get('pk')
         return task_model.get_by_id(task_id)
-    
+
     def get_serializer_class(self):
         if self.request.method in ['PUT', 'PATCH']:
             return TaskCreateSerializer
@@ -115,18 +121,8 @@ class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
 
 
-class TestView(viewsets.ViewSet):
-    def list(self, request):
-        return Response('Hello worlds!')
-    
-    def create(self, request):
-        data = request.data 
-        return Response(f'data: {data}')
-    
-    def retrive(self, request, pk=None):
-        if pk == 1:
-            data = "It's 1 data"
-        else:
-            data = f"It's {pk} data"
+class HelloView(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
 
-        return Response(data)
+    def list(self, request):
+        return Response(f'Hello {request.user.full_name()}!')

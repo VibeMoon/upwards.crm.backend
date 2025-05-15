@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from .views import CustomTokenObtainPairView
+from .views import CustomTokenObtainPairView, MeView
 
 urlpatterns = [
     path(
@@ -12,5 +12,10 @@ urlpatterns = [
         'auth/token/refresh/',
         TokenRefreshView.as_view(),
         name='token_refresh'
+    ),
+    path(
+        'auth/me/',
+        MeView.as_view({"get": "list", "put": "update", "patch": "partial_update"}),
+        name="me_data"
     )
 ]

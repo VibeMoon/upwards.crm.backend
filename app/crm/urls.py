@@ -4,33 +4,33 @@ from .views import (
     ProjectListCreateAPIView, ProjectRetrieveUpdateDestroyAPIView,
     StatusListAPIView,
     TaskListCreateAPIView, TaskRetrieveUpdateDestroyAPIView,
-    TestView
+    HelloView
 
 )
 
 urlpatterns = [
     path(
-        'project/', ProjectListCreateAPIView.as_view(), 
+        'project/', ProjectListCreateAPIView.as_view(),
         name='project_list'
     ),
     path(
-        'project/<int:pk>/', ProjectRetrieveUpdateDestroyAPIView.as_view(), 
+        'project/<int:pk>/', ProjectRetrieveUpdateDestroyAPIView.as_view(),
         name='project_detail'
     ),
     path(
-        'status/', StatusListAPIView.as_view(), 
+        'status/', StatusListAPIView.as_view(),
         name='status_list'
     ),
     path(
-        'task/', TaskListCreateAPIView.as_view(), 
+        'task/', TaskListCreateAPIView.as_view(),
         name='task_list'
     ),
     path(
-        'task/<int:pk>/', TaskRetrieveUpdateDestroyAPIView.as_view(), 
+        'task/<int:pk>/', TaskRetrieveUpdateDestroyAPIView.as_view(),
         name='status_detail'
     ),
     path(
-        'test/', TestView.as_view({'get': 'list'}), 
+        'hello/', HelloView.as_view({'get': 'list'}),
         name='test'
     ),
 ]
