@@ -48,7 +48,7 @@ services:
     image: nginx:alpine
     container_name: nginx_upwards_crm
     ports:
-      - "8003:8003"
+      - "8004:8004"
     volumes:
       - static_volume:/upwards.crm.backend/app/static
       - media_volume:/upwards.crm.backend/app/media
