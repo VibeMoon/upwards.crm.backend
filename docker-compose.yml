@@ -12,13 +12,13 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings
     command: >
       sh -c "python manage.py collectstatic --noinput &&
-            gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+            gunicorn config.wsgi:application --bind 0.0.0.0:8003"
     volumes:
       - .:/upwards.crm.backend
       - static_volume:/upwards.crm.backend/app/static
       - media_volume:/upwards.crm.backend/app/media
     ports:
-      - "8000:8000"
+      - "8003:8003"
     depends_on:
       db:
         condition: service_healthy

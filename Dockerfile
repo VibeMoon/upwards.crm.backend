@@ -21,4 +21,4 @@ COPY . /upwards.crm.backend/
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "PYTHONPATH=/upwards.crm.backend/app gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "PYTHONPATH=/upwards.crm.backend/app gunicorn config.wsgi:application --bind 0.0.0.0:8003"]
