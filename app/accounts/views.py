@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.viewsets import ViewSet
-from .serializers import CustomTokenObtainPairSerializer, UserSerializer
-from .models import User
 from rest_framework.decorators import action
+from .serializers import CustomTokenObtainPairSerializer, UserSerializer
+from .services import UserService
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -74,13 +74,24 @@ class MeView(ViewSet):
 
     @action(detail=False, methods=['patch'])
     def partial_update(self, request):
-        """Partial update of user data (PATCH)"""
+        user = request.user
+        data = request.data.copy()
+        if 'avatar' in data and data['avatar']:
+            avatar_data = data['avatar']
+            try:
+                decoded_file = UserService.decode_file(avatar_data)
+                user.avatar.save(decoded_file.name, decoded_file, save=True)
+            except Exception as e:
+                return Response({
+                    "success": False,
+                    "message": f"Error processing avatar: {str(e)}",
+                }, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.serializer_class(
-            request.user,
-            data=request.data,
+            user,
+            data=data,
             partial=True
         )
-
         if serializer.is_valid():
             serializer.save()
             return Response({
