@@ -5,18 +5,24 @@ from django.core.files.base import ContentFile
 
 
 class UserService:
-
     @staticmethod
     def decode_file(data):
-        if isinstance(data, dict):
-            data = data["file"]
-
+        if not data:
+            raise ValueError("Empty file data")
         if data.startswith('data:'):
-            format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
+            if ';base64,' not in data:
+                raise ValueError("Invalid base64 format")
+
+            header, imgstr = data.split(';base64,')
+            if not imgstr:
+                raise ValueError("Empty base64 data")
+
+            ext = header.split('/')[-1] if '/' in header else 'png'
             filename = f"{uuid.uuid4()}.{ext}"
-            return ContentFile(base64.b64decode(imgstr), name=filename)
-        else:
-            with open(data, 'rb') as f:
-                file_content = f.read()
-            return ContentFile(file_content, name=os.path.basename(data))
+            try:
+                decoded_data = base64.b64decode(imgstr)
+                return ContentFile(decoded_data, name=filename)
+            except Exception as e:
+                raise ValueError(f"Invalid base64 data: {str(e)}")
+
+        raise ValueError("Unsupported file format")

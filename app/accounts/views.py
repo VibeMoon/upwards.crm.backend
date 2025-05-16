@@ -72,19 +72,20 @@ class MeView(ViewSet):
             "errors": serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['patch'])
+    @action(detail=False, methods=['patch', 'put'])
     def partial_update(self, request):
         user = request.user
         data = request.data.copy()
-        if 'avatar' in data and data['avatar']:
-            avatar_data = data['avatar']
+
+        if 'avatar' in data:
+            avatar_data = data.pop('avatar')
             try:
                 decoded_file = UserService.decode_file(avatar_data)
                 user.avatar.save(decoded_file.name, decoded_file, save=True)
             except Exception as e:
                 return Response({
                     "success": False,
-                    "message": f"Error processing avatar: {str(e)}",
+                    "message": f"Avatar error: {str(e)}",
                 }, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.serializer_class(
@@ -92,11 +93,12 @@ class MeView(ViewSet):
             data=data,
             partial=True
         )
+
         if serializer.is_valid():
             serializer.save()
             return Response({
                 "success": True,
-                "message": "User partially updated successfully",
+                "message": "User updated successfully",
                 "data": serializer.data
             })
 

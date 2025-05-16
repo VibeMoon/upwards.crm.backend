@@ -3,11 +3,12 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import exceptions
 # from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
-
+from django.conf import settings
 from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(use_url=True)
 
     class Meta:
         model = User
