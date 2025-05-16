@@ -8,6 +8,7 @@ from .yasg import urlpatterns as docs_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('accounts.urls')),
+    # path('api/', include('crm.urls')),
 ]
 
 urlpatterns += docs_urls
