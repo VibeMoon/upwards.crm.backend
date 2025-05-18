@@ -1,6 +1,9 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from .views import CustomTokenObtainPairView, MeView
+from .views import (
+    CustomTokenObtainPairView, MeView, UserViewSet,
+    ChangePasswordUpdateAPIView, UserStatusViewSet
+)
 
 urlpatterns = [
     path(
@@ -17,5 +20,20 @@ urlpatterns = [
         'auth/me/',
         MeView.as_view({"get": "list", "put": "update", "patch": "partial_update"}),
         name="me_data"
+    ),
+    path(
+        'admin/users/',
+        UserViewSet.as_view({"get": "list", "post": "create"}),
+        name="users"
+    ),
+    path(
+        'change-password',
+        ChangePasswordUpdateAPIView.as_view(),
+        name="user_change_password"
+    ),
+    path(
+        'user-status/',
+        UserStatusViewSet.as_view({"get": "list", "post": "create"}),
+        name="user-status"
     )
 ]

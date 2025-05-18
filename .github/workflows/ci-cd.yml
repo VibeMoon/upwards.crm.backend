@@ -39,4 +39,5 @@ jobs:
             make down
             make build
             make up
+            make run
           EOF
