@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'avatar', 'email', 'first_name',
             'last_name', 'status', 'date_joined',
-            'last_online_date'
+            'last_online_date', 'groups'
         )
 
 
@@ -35,7 +35,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'avatar', 'email', 'first_name',
             'last_name', 'status', 'password', 'date_joined',
-            'last_online_date'
+            'last_online_date', 'groups'
         )
 
 
