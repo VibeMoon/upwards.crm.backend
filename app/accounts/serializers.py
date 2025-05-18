@@ -14,7 +14,7 @@ class GroupsSerializer(serializers.ModelSerializer):
 
 
 class UserStatusSerializer(serializers.ModelSerializer):
-    groups = GroupsSerializer(read_only=True)
+    groups = GroupsSerializer(many=True)
 
     class Meta:
         model = UserStatus
@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     last_online_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     status = UserStatusSerializer(read_only=True)
-    groups = GroupsSerializer(read_only=True)
+    groups = GroupsSerializer(many=True)
 
     class Meta:
         model = User
