@@ -2,20 +2,30 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework import exceptions
-# from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from .models import User, UserStatus
 
 
+class GroupsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = '__all__'
+
+
 class UserStatusSerializer(serializers.ModelSerializer):
+    groups = GroupsSerializer(read_only=True)
+
     class Meta:
         model = UserStatus
         fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     last_online_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     status = UserStatusSerializer(read_only=True)
+    groups = GroupsSerializer(read_only=True)
 
     class Meta:
         model = User
