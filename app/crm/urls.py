@@ -13,11 +13,11 @@ urlpatterns = [
         name='user_event'
     ),
     path(
-        'user-action-statuses/',
+        'user-actions/statuses/',
         UserActionStatusViewSet.as_view({"get": "list", "post": "create"})
     ),
     path(
-        'additional-data/',
+        'project/additional-data/',
         AdditionalDataViewSet.as_view({"get": "list", "post": "create"})
     ),
     path(
@@ -29,7 +29,7 @@ urlpatterns = [
         ProjectViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"})
     ),
     path(
-        'tasks-status/',
+        'tasks/status/',
         TaskStatusViewSet.as_view({"get": "list", "post": "create"})
     ),
     path(

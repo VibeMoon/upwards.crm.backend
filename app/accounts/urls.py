@@ -27,12 +27,12 @@ urlpatterns = [
         name="users"
     ),
     path(
-        'change-password',
+        'auth/change-password/',
         ChangePasswordUpdateAPIView.as_view(),
         name="user_change_password"
     ),
     path(
-        'user-status/',
+        'admin/users/status/',
         UserStatusViewSet.as_view({"get": "list", "post": "create"}),
         name="user-status"
     )
